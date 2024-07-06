@@ -1,0 +1,21 @@
+Setup Node project and fresh mysql database
+
+1)  Create two registration page, customer registration and admin registration with following fields
+	First Name
+	Last Name
+	Email
+	Password
+
+2) If user is registered with customer registration page, he will be assigned customer role
+
+3) If user is registered with admin registration page, he will be assigned admin role
+
+4) Default auth feature of email verification should be there for both registration page
+
+5) Create another page for admin login with following fields
+	Email
+	Password
+
+6) This page will allow admin to login
+
+7) If users registered with customer registration page tries to login, app should show an error message "You are not allowed to login from      here"
