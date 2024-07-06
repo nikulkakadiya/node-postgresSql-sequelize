@@ -1,10 +1,8 @@
-const db = require("../config/database");
 require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const sendVerificationEmail = require("../utils/sendEmail");
-
-const User = db.user
+const User = require('../models/user');
 
 exports.registerCustomerAndAdmin = async(req, res, next)=>{
     const { email, password } = req.body;
@@ -48,18 +46,18 @@ exports.login = async (req, res) => {
 };
 
 exports.verifyEmail = async (req, res) => {
-    const { token } = req.query;
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      const user = await User.findByPk(decoded.id);
-      if (user) {
-        user.isVerified = true;
-        await user.save();
-        res.status(200).json({ message: 'Email verified successfully.' });
-      } else {
-        res.status(400).json({ message: 'Invalid token.' });
-      }
-    } catch (error) {
+  const { token } = req.query;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findByPk(decoded.id);
+    if (user) {
+      user.isVerified = true;
+      await user.save();
+      res.status(200).json({ message: 'Email verified successfully.' });
+    } else {
       res.status(400).json({ message: 'Invalid token.' });
     }
-  };
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid token.' });
+  }
+};

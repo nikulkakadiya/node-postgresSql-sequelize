@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize,DataTypes } = require('sequelize');
 require('dotenv').config();
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER,process.env.DB_PASSWORD , {
@@ -6,11 +6,13 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER,process
     dialect: 'postgres',
 });
 
-const db = {};
+async function connectDB() {
+    try {
+        await sequelize.authenticate();
+        console.log("Connection Successful");
+    } catch (error) {
+        console.error("Unable to connect to database: ", error);
+    }
+}
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
-
-db.user = require("../models/user.js")(sequelize, Sequelize);
-
-module.exports = db;
+module.exports = { connectDB, sequelize, Sequelize, DataTypes };

@@ -1,13 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('./src/config/database');
 const authRouter = require("./src/routes/authRoute");
 const globleErrorhandler = require('./src/middleware/errorMiddleware');
+const { connectDB, sequelize } = require('./src/config/database');
 require('dotenv').config();
 const app = express();
 
 app.use(bodyParser.json());
-db.sequelize.sync()
 
 // All router define
 app.use("/api", authRouter);
@@ -23,6 +22,10 @@ app.all("*", (req, res, next) => {
     });
   });
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, async() => {
     console.log(`Server is running on port ${process.env.PORT}`);
+    await connectDB();
+    sequelize.sync({ force: false }).then(() => {
+        console.log("Database Connected Successfully");
+    });
 });
