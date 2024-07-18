@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const authRouter = require("./src/routes/authRoute");
+const userRoute = require("./src/routes/userRoute");
+const addressRoute = require("./src/routes/addressRoute");
 const globleErrorhandler = require('./src/middleware/errorMiddleware');
 const { connectDB, sequelize } = require('./src/config/database');
 require('dotenv').config();
@@ -11,6 +13,8 @@ app.use(bodyParser.json());
 // All router define
 app.use("/api", authRouter);
 app.use("/api", authRouter);
+app.use("/api", userRoute);
+app.use("/api", addressRoute);
 
 // Heandal all URL.. Not found Request
 app.use(globleErrorhandler);

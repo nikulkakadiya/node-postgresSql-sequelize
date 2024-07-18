@@ -5,6 +5,10 @@ const Address = sequelize.define('Address', {
         type: DataTypes.INTEGER,
         allowNull: false,
         field:'user_id',
+        references:{
+            model: User,
+            key:'id'
+        }
     },
     street: {
         type: DataTypes.STRING,
