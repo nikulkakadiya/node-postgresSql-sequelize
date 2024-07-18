@@ -18,6 +18,17 @@ app.use("/api", addressRoute);
 
 // Heandal all URL.. Not found Request
 app.use(globleErrorhandler);
+// Error handling middleware
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(err.status || 500);
+//   res.json({
+//     error: {
+//       message: err.message,
+//     },
+//   });
+// });
+
 app.all("*", (req, res, next) => {
     const err = new Error(`Not Found ${req.originalUrl} on this server`);
   
